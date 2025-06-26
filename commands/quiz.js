@@ -12,19 +12,15 @@ function startScoreTimer(userID) {
   if (scoreTimeouts.has(userID)) {
     clearTimeout(scoreTimeouts.get(userID));
   }
-
-  const timeout = setTimeout(() => {
-    resetUserScore(userID);
-  }, 5 * 60 * 1000); // 5 minutes
-
+  const timeout = setTimeout(() => resetUserScore(userID), 5 * 60 * 1000);
   scoreTimeouts.set(userID, timeout);
 }
 
 module.exports = {
   config: {
     name: "quiz",
-    author: "Raniel",
     nonPrefix: true,
+    author: "Raniel",
     description: "Random quiz with choices, timer, and score tracking.",
     usage: "<prefix>quiz",
     role: 0,
@@ -33,21 +29,27 @@ module.exports = {
 
   async run({ api, event }) {
     const { threadID, messageID, senderID } = event;
-
-    const url = `https://kaiz-apis.gleeze.com/api/quiz?limit=1&apikey=72f8161d-50d4-4177-a3b4-bd6891de70ef`;
+    const endpoint = "https://kaiz-apis.gleeze.com/api/quiz?limit=5&apikey=72f8161d-50d4-4177-a3b4-bd6891de70ef";
+    let quiz;
 
     try {
-      const res = await axios.get(url);
-      const quiz = res.data?.result?.[0];
-      if (!quiz) {
-        return api.sendMessage("❌ No quiz found from the API.", threadID, messageID);
+      const res = await axios.get(endpoint);
+      const results = res.data?.result;
+      if (Array.isArray(results) && results.length > 0) {
+        // Pick random question
+        quiz = results[Math.floor(Math.random() * results.length)];
       }
+      if (!quiz) throw new Error("Empty quiz list");
+    } catch (err) {
+      console.error("❌ Quiz fetch error:", err.message);
+      return api.sendMessage("❌ Hindi makakuha ng quiz ngayon. Subukan ulit mamaya.", threadID, messageID);
+    }
 
-      const choices = quiz.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join("\n");
-      const correctAnswerIndex = quiz.options.findIndex(opt => opt === quiz.correct_answer);
-      const correctLetter = String.fromCharCode(65 + correctAnswerIndex); // A/B/C/D
+    const choices = quiz.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join("\n");
+    const correctIndex = quiz.options.findIndex(o => o === quiz.correct_answer);
+    const correctLetter = String.fromCharCode(65 + correctIndex);
 
-      const quizMsg = `🧠 Quiz Time!
+    const quizMsg = `🧠 Quiz Time!
 ━━━━━━━━━━━━━━━
 📚 Category: ${quiz.category}
 🎯 Difficulty: ${quiz.difficulty}
@@ -55,67 +57,57 @@ module.exports = {
 🔢 Choices:
 ${choices}
 ━━━━━━━━━━━━━━━
-⌛ You have *10 seconds* to answer by replying with the letter (A, B, C, D).`;
+⌛ You have 10 seconds to answer with A, B, C, or D.`;
 
-      api.sendMessage(quizMsg, threadID, async (err, info) => {
-        if (err) return console.error(err);
+    api.sendMessage(quizMsg, threadID, async (err, info) => {
+      if (err) return console.error(err);
 
-        // Save listener
-        global.quizAnswer = {
-          messageID: info.messageID,
-          correct: correctLetter,
-          correctText: quiz.correct_answer,
-          answered: false,
-          senderID,
-          threadID,
-        };
+      global.quizAnswer = {
+        messageID: info.messageID,
+        threadID,
+        senderID,
+        correct: correctLetter,
+        correctText: quiz.correct_answer,
+        answered: false
+      };
 
-        // Start/reset user score timer
-        startScoreTimer(senderID);
+      startScoreTimer(senderID);
 
-        // Set timeout to auto-reveal answer
-        setTimeout(() => {
-          if (global.quizAnswer && !global.quizAnswer.answered && global.quizAnswer.senderID === senderID) {
-            api.sendMessage(
-              `⏰ Time's up!\nThe correct answer is: ${correctLetter}. ${quiz.correct_answer}`,
-              threadID
-            );
-            global.quizAnswer = null;
-          }
-        }, 10000); // 10 seconds
-      });
-
-    } catch (err) {
-      console.error("❌ Quiz error:", err.message);
-      api.sendMessage("❌ Error fetching quiz. Please try again later.", threadID, messageID);
-    }
+      setTimeout(() => {
+        if (global.quizAnswer && !global.quizAnswer.answered && global.quizAnswer.senderID === senderID) {
+          api.sendMessage(`⏰ Time's up! Ang tamang sagot ay ${correctLetter}. ${quiz.correct_answer}`, threadID);
+          global.quizAnswer = null;
+        }
+      }, 10000);
+    });
   },
 
   handleReply({ api, event }) {
     const { threadID, messageID, senderID, body } = event;
-    if (!global.quizAnswer || global.quizAnswer.answered || global.quizAnswer.senderID !== senderID) return;
+    if (
+      !global.quizAnswer ||
+      global.quizAnswer.answered ||
+      global.quizAnswer.senderID !== senderID
+    ) return;
 
-    const userAnswer = body.trim().toUpperCase();
-    if (["A", "B", "C", "D"].includes(userAnswer)) {
-      global.quizAnswer.answered = true;
+    const ans = body.trim().toUpperCase();
+    if (!["A","B","C","D"].includes(ans)) return;
 
-      const isCorrect = userAnswer === global.quizAnswer.correct;
+    global.quizAnswer.answered = true;
+    const correct = ans === global.quizAnswer.correct;
 
-      // Score tracking
-      if (isCorrect) {
-        const prevScore = userScores.get(senderID) || 0;
-        userScores.set(senderID, prevScore + 1);
-      }
-
-      const currentScore = userScores.get(senderID) || 0;
-      const replyMsg = isCorrect
-        ? `✅ Correct! 🎉 The answer is ${global.quizAnswer.correct}. ${global.quizAnswer.correctText}\n🏆 Your score: ${currentScore}`
-        : `❌ Wrong answer.\nThe correct answer was: ${global.quizAnswer.correct}. ${global.quizAnswer.correctText}\n🏆 Your score: ${currentScore}`;
-
-      api.sendMessage(replyMsg, threadID, messageID);
-      global.quizAnswer = null;
-
-      startScoreTimer(senderID);
+    if (correct) {
+      const prev = userScores.get(senderID) || 0;
+      userScores.set(senderID, prev + 1);
     }
+    const score = userScores.get(senderID) || 0;
+
+    const msg = correct
+      ? `✅ Tama! 🎉 ${global.quizAnswer.correct}. ${global.quizAnswer.correctText}\n🏆 Score: ${score}`
+      : `❌ Mali. Ang tamang sagot: ${global.quizAnswer.correct}. ${global.quizAnswer.correctText}\n🏆 Score: ${score}`;
+
+    api.sendMessage(msg, threadID, messageID);
+    startScoreTimer(senderID);
+    global.quizAnswer = null;
   }
 };
