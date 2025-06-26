@@ -33,7 +33,7 @@ module.exports = {
 
         bodyStyle: "bold",
 
-        footerText: "Developed by: **Aljur pogoy**",
+        footerText: "Modified by: Raniela",
 
       });
 
@@ -63,7 +63,7 @@ module.exports = {
 
           bodyStyle: "bold",
 
-          footerText: "Developed by: **Aljur pogoy**",
+          footerText: "Modified by: Raniela",
 
         });
 
@@ -93,7 +93,7 @@ module.exports = {
 
         bodyStyle: "bold",
 
-        footerText: "Powered by: **Aljur pogoy**",
+        footerText: "Modified by: Raniela",
 
       });
 
@@ -115,7 +115,7 @@ module.exports = {
 
         bodyStyle: "bold",
 
-        footerText: "Developed by: **Aljur pogoy**",
+        footerText: "Modified by: Raniela",
 
       });
 
