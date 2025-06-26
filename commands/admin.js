@@ -2,14 +2,14 @@ const fs = require("fs");
 module.exports = {
   name: "admin",
   author: "Aljur pogoy",
-  nonPrefix: true,
+  nonPrefix: false,
   description: "Manage admin list. Usage: #admin list | #admin add <uid> <role> | #admin remove <uid>",
   async run({ api, event }) {
     const { threadID, messageID, senderID, body, messageReply } = event;
     const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
     let admins = Array.isArray(config.admins) ? [...config.admins] : [];
-    let moderators = Array.isArray(config.moderators) ? [...config.moderators] : ["100092248658233"];
-    let developers = Array.isArray(config.developers) ? [...config.developers] : ["100092248658233"];
+    let moderators = Array.isArray(config.moderators) ? [...config.moderators] : [];
+    let developers = Array.isArray(config.developers) ? [...config.developers] : [];
     const userId = String(senderID);
     const isDeveloper = developers.includes(userId);
     if (!isDeveloper) {

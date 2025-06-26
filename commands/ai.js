@@ -7,7 +7,7 @@ module.exports = {
         name: "ai",
         description: "Interact with the GPT-4O API for conversational responses, including attachments.",
         usage: "/gpt4o <query>",
-        nonPrefix: false
+        nonPrefix: true
     },
     run: async ({ api, event, args, admins }) => {
         const { threadID, messageID, senderID, messageReply } = event;

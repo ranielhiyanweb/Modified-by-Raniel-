@@ -2,6 +2,7 @@ const axios = require('axios');
 module.exports = {
   name: 'claude',
   category: 'AI',
+  nonPrefix: true,
   description: 'Ask Claude 3 AI any question.',
   author: 'aljur pogoy',
   version: '3.0.0',
