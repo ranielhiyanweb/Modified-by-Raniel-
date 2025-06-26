@@ -23,7 +23,8 @@ function startScoreTimer(userID) {
 module.exports = {
   config: {
     name: "quiz",
-    author: "Aljur Pogoy",
+    nonPrefix: true,
+    author: "Raniel",
     description: "Get a quiz with options, answer checking, and score tracking.",
     usage: "<prefix>quiz [category] [difficulty]",
     role: 0,

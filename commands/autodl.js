@@ -71,6 +71,7 @@ const getRandomKey = () => apiKeys[Math.floor(Math.random() * apiKeys.length)];
 
 module.exports = {
   name: "autodl",
+  autor: "Raniel",
   nonPrefix: true,
   handleEvent: true,
 
