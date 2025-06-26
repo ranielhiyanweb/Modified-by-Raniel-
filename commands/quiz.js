@@ -23,29 +23,24 @@ function startScoreTimer(userID) {
 module.exports = {
   config: {
     name: "quiz",
-    nonPrefix: true,
     author: "Raniel",
-    description: "Get a quiz with options, answer checking, and score tracking.",
-    usage: "<prefix>quiz [category] [difficulty]",
+    nonPrefix: true,
+    description: "Random quiz with choices, timer, and score tracking.",
+    usage: "<prefix>quiz",
     role: 0,
     aliases: ["qz"],
   },
 
-  async run({ api, event, args }) {
+  async run({ api, event }) {
     const { threadID, messageID, senderID } = event;
 
-    const category = args[0]?.toLowerCase();      // e.g. math
-    const difficulty = args[1]?.toLowerCase();    // easy, medium, hard
-
-    let url = `https://kaiz-apis.gleeze.com/api/quiz?limit=1&apikey=72f8161d-50d4-4177-a3b4-bd6891de70ef`;
-    if (category) url += `&category=${encodeURIComponent(category)}`;
-    if (difficulty) url += `&difficulty=${encodeURIComponent(difficulty)}`;
+    const url = `https://kaiz-apis.gleeze.com/api/quiz?limit=1&apikey=72f8161d-50d4-4177-a3b4-bd6891de70ef`;
 
     try {
       const res = await axios.get(url);
       const quiz = res.data?.result?.[0];
       if (!quiz) {
-        return api.sendMessage("❌ No quiz found for that category/difficulty.", threadID, messageID);
+        return api.sendMessage("❌ No quiz found from the API.", threadID, messageID);
       }
 
       const choices = quiz.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join("\n");
@@ -96,7 +91,6 @@ ${choices}
     }
   },
 
-  // Listen for replies
   handleReply({ api, event }) {
     const { threadID, messageID, senderID, body } = event;
     if (!global.quizAnswer || global.quizAnswer.answered || global.quizAnswer.senderID !== senderID) return;
@@ -121,7 +115,7 @@ ${choices}
       api.sendMessage(replyMsg, threadID, messageID);
       global.quizAnswer = null;
 
-      startScoreTimer(senderID); // reset score timeout
+      startScoreTimer(senderID);
     }
   }
 };
