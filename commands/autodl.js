@@ -44,7 +44,7 @@ module.exports = {
       errorMessage += `  ┃ 『 𝗜𝗡𝗙𝗢 』 An error occurred while fetching the video.\n`;
       errorMessage += `  ┃ ${error.message}\n`;
       errorMessage += `  ┗━━━━━━━┛\n\n`;
-      errorMessage += `> Thank you for using our Cid Kagenou bot`;
+      errorMessage += `> Thank you for using Raniela's Bot`;
       api.sendMessage(errorMessage, threadID, messageID);
     }
   },

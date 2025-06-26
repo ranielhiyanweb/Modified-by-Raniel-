@@ -41,7 +41,7 @@ module.exports = {
       });
       let baMessage = `════『 𝗕𝗔 』════\n\n`;
       baMessage += `✨ Here's your Blue Archive image! ✨\n\n`;
-      baMessage += `> Thank you for using our Cid Kagenou bot`;
+      baMessage += `> Thank you for using Raniela's Bot`;
       const imageStream = fs.createReadStream(tempImagePath);
       await api.sendMessage(
         {
@@ -59,7 +59,7 @@ module.exports = {
       errorMessage += `  ┃ 『 𝗜𝗡𝗙𝗢 』 An error occurred while fetching the image.\n`;
       errorMessage += `  ┃ ${error.message}\n`;
       errorMessage += `  ┗━━━━━━━┛\n\n`;
-      errorMessage += `> Thank you for using our Cid Kagenou bot`;
+      errorMessage += `> Thank you for using Raniela's Bot`;
       api.sendMessage(errorMessage, threadID, messageID);
     }
   },

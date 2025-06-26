@@ -1,6 +1,6 @@
 const axios = require('axios');
 module.exports = {
-  name: 'cid',
+  name: 'Aiv2',
   category: 'Ai',
   execute: async (api, event, args, commands, prefix, admins, appState, sendMessage) => {
     const { threadID } = event;

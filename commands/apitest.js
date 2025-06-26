@@ -108,7 +108,7 @@ module.exports = {
 
         resultMessage += `📜 Response Data:\n${formattedData}\n\n`;
 
-        resultMessage += `> Thank you for using our Cid Kagenou bot`;
+        resultMessage += `> Thank you for using Raniela's bot`;
 
         return api.sendMessage(resultMessage, threadID, messageID);
 
@@ -148,7 +148,7 @@ module.exports = {
 
         imageMessage += `🖼️ Image Attachment Below:\n\n`;
 
-        imageMessage += `> Thank you for using our Cid Kagenou bot`;
+        imageMessage += `> Thank you for using Raniela's Bot`;
 
         
 
@@ -196,7 +196,7 @@ module.exports = {
 
       errorMessage += `  ┗━━━━━━━┛\n\n`;
 
-      errorMessage += `> Thank you for using our Cid Kagenou bot`;
+      errorMessage += `> Thank you for using Raniela's Bot`;
 
       api.sendMessage(errorMessage, threadID, messageID);
 

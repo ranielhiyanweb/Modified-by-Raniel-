@@ -18,7 +18,7 @@ module.exports = {
     const goodbyeMessage = `════『 𝗢𝗨𝗧 』════\n\n` +
       `🌐 Bot is leaving this thread...\n\n` +
       `📋 Goodbye! Feel free to invite me back if needed.\n\n` +
-      `> Thank you for using our Cid Kagenou bot`;
+      `> Thank you for using Raniela's Bot`;
     try {
       await api.sendMessage(goodbyeMessage, threadID);
       await api.removeUserFromGroup(api.getCurrentUserID(), threadID);
@@ -30,7 +30,7 @@ module.exports = {
         `  ┃ 『 𝗜𝗡𝗙𝗢 』 An error occurred while leaving the thread.\n` +
         `  ┃ Error: ${error.message}\n` +
         `  ┗━━━━━━━┛\n\n` +
-        `> Thank you for using our Cid Kagenou bot`;
+        `> Thank you for using Raniela's Bot`;
       api.sendMessage(errorMessage, threadID, messageID);
     }
   },

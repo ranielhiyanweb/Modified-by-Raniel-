@@ -25,7 +25,7 @@ module.exports = {
         writer.on("finish", resolve);
         writer.on("error", reject);
       });
-      const message = `${caption}\n\n> Thank you for using our Cid Kagenou bot`;
+      const message = `${caption}\n\n> Thank you for using Raniela's Bot`;
       const imageStream = fs.createReadStream(tempImagePath);
       await api.sendMessage(
         {

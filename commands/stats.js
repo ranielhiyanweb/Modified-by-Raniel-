@@ -11,7 +11,7 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     if (!admins.includes(senderID)) {
       return api.sendMessage(
-        `════『 𝗦𝗧𝗔𝗧𝗦 』════\n\n❌ Only admins can use this command.\n\n> Thank you for using our Cid Kagenou bot`,
+        `════『 𝗦𝗧𝗔𝗧𝗦 』════\n\n❌ Only admins can use this command.\n\n> Thank you for using Raniela's Bot`,
         threadID,
         messageID
       );
@@ -33,7 +33,7 @@ module.exports = {
       console.error("Error updating thread count:", error.message);
     }
     return api.sendMessage(
-      `════『 𝗦𝗧𝗔𝗧𝗦 』════\n\n📊 Total messages handled: ${statsData.messagesHandled}\n📊 Active threads: ${statsData.activeThreads}\n\n> Thank you for using our Cid Kagenou bot`,
+      `════『 𝗦𝗧𝗔𝗧𝗦 』════\n\n📊 Total messages handled: ${statsData.messagesHandled}\n📊 Active threads: ${statsData.activeThreads}\n\n> Thank you for using Raniela's Bot`,
       threadID,
       messageID
     );
