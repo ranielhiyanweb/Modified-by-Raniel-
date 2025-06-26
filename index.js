@@ -26,7 +26,7 @@ const bannedUsersFile = path.join(__dirname, "database", "bannedUsers.json");
 const configFile = path.join(__dirname, "config.json");
 const globalDataFile = path.join(__dirname, "database", "globalData.json");
 let bannedUsers = {};
-let config = { admins: [], moderators: [], developers: [], Prefix: ["/"], botName: "Ranielas Bot", mongoUri: null };
+let config = { admins: [], moderators: [], developers: [], Prefix: ["/"], botName: "Shadow Garden Bot", mongoUri: null };
 global.disabledCommands = new Map();
 process.on("unhandledRejection", console.error.bind(console));
 process.on("exit", () => fs.writeFileSync(globalDataFile, JSON.stringify([...globalData])));
@@ -116,13 +116,13 @@ try {
     moderators: configData.moderators || [],
     developers: configData.developers || [],
     Prefix: Array.isArray(configData.Prefix) && configData.Prefix.length > 0 ? configData.Prefix : ["/"],
-    botName: configData.botName || "Ranielas Bot",
+    botName: configData.botName || "Shadow Garden Bot",
     mongoUri: configData.mongoUri || null,
     ...configData,
   };
 } catch (error) {
   console.error("[CONFIG] Error loading config.json:", error);
-  config = { admins: [], moderators: [], developers: [], Prefix: ["/"], botName: "Ranielas Bot", mongoUri: null };
+  config = { admins: [], moderators: [], developers: [], Prefix: ["/"], botName: "Shadow Garden Bot", mongoUri: null };
 }
 let db = null;
 const uri = config.mongoUri || null;
