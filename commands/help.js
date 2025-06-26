@@ -5,7 +5,7 @@ module.exports = {
   category: "Utility",
   description: "Displays all available commands or detailed info about a specific command",
   author: "Cid Kagenou",
-  nonPrefix: false,
+  nonPrefix: true,
   version: "4.0",
   usage: "help or help <command> or help <page>",
   execute: async (api, event, args, commands, prefix, admins, appState, sendMessage) => {

@@ -1,5 +1,6 @@
 module.exports = {
   name: "approve",
+  nonPrefix: true,
   author: "Aljur pogoy",
   version: "4.0.0",
   description: "Approve a thread by its threadID or list pending threads (Admin only). Usage: #approve <threadID> or #approve pending",

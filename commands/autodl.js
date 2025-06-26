@@ -3,6 +3,7 @@ const path = require("path");
 const axios = require("axios");
 module.exports = {
   name: "autodl",
+  nonPrefix: true,
   handleEvent: true,
   async handleEvent({ api, event }) {
     const { threadID, messageID, body } = event;
