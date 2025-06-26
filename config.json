@@ -1,10 +1,10 @@
 {
-  "admins": [],
+  "admins": ["100092248658233"],
   "moderators": [],
   "developers": [],
   "Prefix": [
-    "/"
+    "-"
   ],
-  "botName": "KagenouBotV4",
+  "botName": "Raniel's Bot",
   "mongoUri": ""
 }
