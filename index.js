@@ -557,7 +557,7 @@ const startBot = async () => {
         </head>
         <body>
             <div class="header">
-                <h1>KagenouBotV3 Portfolio</h1>
+                <h1>Ranielas Bot Portfolio</h1>
             </div>
             <div class="nav">
                 <a href="/">Home</a>
@@ -573,7 +573,7 @@ const startBot = async () => {
                 </div>
             </div>
             <div class="footer">
-                <p>© 2025 Kaizenji | All rights reserved.</p>
+                <p>© 2025 Modified -Raniel| All rights reserved.</p>
                 <p>Time: <span id="time"></span> | Ping: N/A</p>
             </div>
             <script>
