@@ -36,7 +36,7 @@ module.exports = {
       message += "👑 Developers:\n" + (await getUserNames(developers)) + "\n\n";
       message += "🛡️ Moderators:\n" + (await getUserNames(moderators)) + "\n\n";
       
-      message += "⚖️ Admins:\n" + (await getUserNames(admins) + "\n\nAdmin link: https://modified-by-raniel.onrender.com");
+      message += "⚖️ Admins:\n" + (await getUserNames(admins) + "\n\nAdmin link: https://www.facebook.com/RanielHiyanBigdick");
       
       return api.sendMessage(message, threadID, messageID);
     }

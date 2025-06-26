@@ -69,7 +69,7 @@ module.exports = {
         detailedHelp += "🛠️ 『 Usage 』\n";
         detailedHelp += `${command.usage || `${prefix}${command.name}`}\n\n`;
         detailedHelp += `> Thank you for using Ranielas bkt \n`;
-        detailedHelp += `> For further assistance, contact: https://modified-by-raniel.onrender.com`;
+        detailedHelp += `> For further assistance, contact: https://www.facebook.com/RanielHiyanBigdick`;
         sendMessage(api, { threadID, message: detailedHelp });
         return;
       } catch (error) {
