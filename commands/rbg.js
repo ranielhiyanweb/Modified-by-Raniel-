@@ -1,57 +1,70 @@
 const axios = require("axios");
+
 module.exports = {
-    config: {
-        name: "rbg",
-        description: "rbg sir!.",
-        author: "Aljur pogoy",
-        usage: "#rbg (reply to a photo)",
-        nonPrefix: true,
-        version: "4.0.0"
-    },
-    run: async ({ api, event, args }) => {
-        const { threadID, messageID, senderID, messageReply } = event;
-        if (!messageReply || !messageReply.attachments || messageReply.attachments.length === 0 || messageReply.attachments[0].type !== "photo") {
-            return api.sendMessage(
-                "Please reply to a message containing a photo to enhance it with Remini.\nUsage: Reply to a photo with #remini",
-                threadID,
-                messageID
-            );
-        }
-        const photoUrl = messageReply.attachments[0].url;
-        try {
-            const response = await axios.get("https://kaiz-apis.gleeze.com/api/removebg", {
-                params: {
-                    url: photoUrl,
-                    stream: true
-                },
-                responseType: "stream"
-            });
-            const contentType = response.headers["content-type"];
-            if (!contentType || !contentType.startsWith("image/")) {
-                return api.sendMessage(
-                    "err sir!",
-                    threadID,
-                    messageID
-                );
-            }
-            const messageContent = "✨ There you go!.";
-            const sendOptions = {
-                body: messageContent,
-                attachment: response.data
-            };
-            api.sendMessage(sendOptions, threadID, (err, messageInfo) => {
-                if (err) {
-                    console.error("Error sending remini message:", err);
-                    api.sendMessage("Failed to send the enhanced image.", threadID, messageID);
-                }
-            }, messageID);
-        } catch (error) {
-            console.error("Error in remini command:", error.message);
-            api.sendMessage(
-                `An error occurred while rbg the image: ${error.message}\n`,
-                threadID,
-                messageID
-            );
-        }
+  config: {
+    name: "rbg",
+    nonPrefix: true,
+    description: "Remove image background using Kaiz API.",
+    author: "ranjel",
+    usage: "rbg (reply to a photo)",
+    nonPrefix: true,
+    version: "4.0.0"
+  },
+
+  run: async ({ api, event, args }) => {
+    const { threadID, messageID, senderID, messageReply } = event;
+
+    if (
+      !messageReply ||
+      !messageReply.attachments ||
+      messageReply.attachments.length === 0 ||
+      messageReply.attachments[0].type !== "photo"
+    ) {
+      return api.sendMessage(
+        "❌ Please reply to a message containing a photo to remove its background.\nUsage: Reply to a photo with #rbg",
+        threadID,
+        messageID
+      );
     }
+
+    const photoUrl = messageReply.attachments[0].url;
+
+    try {
+      const apiUrl = `https://kaiz-apis.gleeze.com/api/removebgv3`;
+      const response = await axios.get(apiUrl, {
+        params: {
+          url: photoUrl,
+          stream: false,
+          apikey: "72f8161d-50d4-4177-a3b4-bd6891de70ef"
+        }
+      });
+
+      const imageResult = response.data?.result;
+
+      if (!imageResult || !imageResult.url) {
+        return api.sendMessage(
+          "❌ Failed to process image. Please try again later.",
+          threadID,
+          messageID
+        );
+      }
+
+      await api.sendMessage(
+        {
+          body: "✅ Here's your image with the background removed!",
+          attachment: await axios.get(imageResult.url, { responseType: "stream" }).then(res => res.data)
+        },
+        threadID,
+        messageID
+      );
+
+    } catch (error) {
+      console.error("❌ Error in rbg command:", error.message);
+      api.sendMessage(
+        `❌ An error occurred while removing background:\n${error.message}`,
+        threadID,
+        messageID
+      );
+    }
+  }
 };
