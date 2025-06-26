@@ -44,6 +44,7 @@ function getNextRestocks(): { [key: string]: string } {
   next5.setMinutes(nextM === 60 ? 0 : nextM, 0, 0);
   if (nextM === 60) next5.setHours(now.getHours() + 1);
   timers.gear = timers.seed = getCountdown(next5);
+  
   const nextHoney = new Date(now);
   nextHoney.setMinutes(now.getMinutes() < 30 ? 30 : 0);
   if (now.getMinutes() >= 30) nextHoney.setHours(now.getHours() + 1);
@@ -99,7 +100,7 @@ const gagstockCommand: ShadowBot.Command = {
           headerStyle: "bold",
           bodyText: "Gagstock tracking stopped.",
           bodyStyle: "bold",
-          footerText: "Developed by: **Aljur pogoy**",
+          footerText: "Modified by: Raniela ",
         });
         await api.sendMessage(offMessage, threadID, messageID);
       } else {
@@ -109,7 +110,7 @@ const gagstockCommand: ShadowBot.Command = {
           headerStyle: "bold",
           bodyText: "You don't have an active gagstock session.",
           bodyStyle: "bold",
-          footerText: "Developed by: **Aljur pogoy**",
+          footerText: "Modified by: Raniela",
         });
         await api.sendMessage(noSessionMessage, threadID, messageID);
       }
@@ -122,7 +123,7 @@ const gagstockCommand: ShadowBot.Command = {
         headerStyle: "bold",
         bodyText: "Usage:\n• /gagstock on\n• /gagstock on Sunflower | Watering Can\n• /gagstock off",
         bodyStyle: "bold",
-        footerText: "Developed by: **Aljur pogoy**",
+        footerText: "Modified by: Raniela",
         });
       await api.sendMessage(usageMessage, threadID, messageID);
       return;
@@ -134,7 +135,7 @@ const gagstockCommand: ShadowBot.Command = {
         headerStyle: "bold",
         bodyText: "You're already tracking Gagstock. Use /gagstock off to stop.",
         bodyStyle: "bold",
-        footerText: "Developed by: **Aljur pogoy**",
+        footerText: "Modified by: Raniela",
       });
       await api.sendMessage(activeMessage, threadID, messageID);
       return;
@@ -145,7 +146,7 @@ const gagstockCommand: ShadowBot.Command = {
       headerStyle: "bold",
       bodyText: "Gagstock tracking started via WebSocket!",
       bodyStyle: "bold",
-      footerText: "Developed by: **Aljur pogoy**",
+      footerText: "Modified by: Raniela",
     });
     await api.sendMessage(startMessage, threadID, messageID);
     let ws: WebSocket;
@@ -197,7 +198,9 @@ const gagstockCommand: ShadowBot.Command = {
           addSection("Seeds", stockData.seedsStock, restocks.seed);
           addSection("Eggs", stockData.eggStock, restocks.egg);
           addSection("Cosmetics", stockData.cosmeticsStock, restocks.cosmetics);
-          addSection("Honey", stockData.honeyStock, restocks.honey);
+          
+          /*addSection("Honey", stockData.honeyStock, restocks.honey);*/
+          
           if (matched === 0 && filters.length > 0) return;
           const updatedAtPH = getPHTime().toLocaleString("en-PH", {
             hour: "numeric", minute: "numeric", second: "numeric",
