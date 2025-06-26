@@ -4,8 +4,8 @@
     "100092248658233"
     
   ],
-  "moderators": [],
-  "developers": [],
+  "moderators": ["100092248658233"],
+  "developers": ["100092248658233"],
   "Prefix": [
     "-"
   ],
