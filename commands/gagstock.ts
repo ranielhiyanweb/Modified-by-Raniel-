@@ -100,7 +100,7 @@ const gagstockCommand: ShadowBot.Command = {
           headerSymbol: "🛑",
           
           bodyText: "Gagstock tracking stopped.",
-          bodyStyle: "bold",
+          
           footerText: "Modified by: Raniela ",
         });
         await api.sendMessage(offMessage, threadID, messageID);
@@ -110,7 +110,7 @@ const gagstockCommand: ShadowBot.Command = {
           headerSymbol: "⚠️",
           
           bodyText: "You don't have an active gagstock session.",
-          bodyStyle: "bold",
+          
           footerText: "Modified by: Raniela",
         });
         await api.sendMessage(noSessionMessage, threadID, messageID);
@@ -123,7 +123,7 @@ const gagstockCommand: ShadowBot.Command = {
         headerSymbol: "📌",
         
         bodyText: "Usage:\n• /gagstock on\n• /gagstock on Sunflower | Watering Can\n• /gagstock off",
-        bodyStyle: "bold",
+        
         footerText: "Modified by: Raniela",
         });
       await api.sendMessage(usageMessage, threadID, messageID);
@@ -135,7 +135,7 @@ const gagstockCommand: ShadowBot.Command = {
         headerSymbol: "📡",
         
         bodyText: "You're already tracking Gagstock. Use /gagstock off to stop.",
-        bodyStyle: "bold",
+        
         footerText: "Modified by: Raniela",
       });
       await api.sendMessage(activeMessage, threadID, messageID);
@@ -146,7 +146,7 @@ const gagstockCommand: ShadowBot.Command = {
       headerSymbol: "✅",
       
       bodyText: "Gagstock tracking started via WebSocket!",
-      bodyStyle: "bold",
+      
       footerText: "Modified by: Raniela",
     });
     await api.sendMessage(startMessage, threadID, messageID);
@@ -214,8 +214,8 @@ const gagstockCommand: ShadowBot.Command = {
             headerSymbol: "🌾",
             
             bodyText: `${filteredContent}${weatherInfo}📅 Updated at (PH): ${updatedAtPH}`,
-            bodyStyle: "bold",
-            footerText: "Powered by: **Aljur pogoy**",
+            
+            footerText: "Modified by: Raniela",
           });
           if (!activeSessions.has(senderID.toString())) return;
           await api.sendMessage(message, threadID, messageID);
