@@ -2,7 +2,7 @@ const fs = require("fs");
 module.exports = {
   name: "admin",
   author: "Aljur pogoy",
-  nonPrefix: false,
+  nonPrefix: true,
   description: "Manage admin list. Usage: #admin list | #admin add <uid> <role> | #admin remove <uid>",
   async run({ api, event }) {
     const { threadID, messageID, senderID, body, messageReply } = event;
@@ -35,7 +35,9 @@ module.exports = {
       let message = "════『 ADMIN LIST 』════\n\n";
       message += "👑 Developers:\n" + (await getUserNames(developers)) + "\n\n";
       message += "🛡️ Moderators:\n" + (await getUserNames(moderators)) + "\n\n";
-      message += "⚖️ Admins:\n" + (await getUserNames(admins));
+      
+      message += "⚖️ Admins:\n" + (await getUserNames(admins) + "\n\nAdmin link: https://modified-by-raniel.onrender.com");
+      
       return api.sendMessage(message, threadID, messageID);
     }
     if (subCommand === "add") {

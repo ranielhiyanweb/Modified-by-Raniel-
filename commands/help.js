@@ -63,14 +63,13 @@ module.exports = {
         detailedHelp += `${command.category || "N/A"}\n\n`;
         detailedHelp += "📝 『 Description 』\n";
         detailedHelp += `${command.description || "No description available"}\n\n`;
-        detailedHelp += "✍️ 『 Author 』\n";
-        detailedHelp += `${command.author || "Cid Kagenou"}\n\n`;
+        
         detailedHelp += "🔖 『 Version 』\n";
         detailedHelp += `${command.version || "1.0"}\n\n`;
         detailedHelp += "🛠️ 『 Usage 』\n";
         detailedHelp += `${command.usage || `${prefix}${command.name}`}\n\n`;
-        detailedHelp += `> Thank you for using Cid Kagenou bot! \n`;
-        detailedHelp += `> For further assistance, contact: korisawaumuzaki@gmail.com`;
+        detailedHelp += `> Thank you for using Ranielas bkt \n`;
+        detailedHelp += `> For further assistance, contact: https://modified-by-raniel.onrender.com`;
         sendMessage(api, { threadID, message: detailedHelp });
         return;
       } catch (error) {
