@@ -2,6 +2,7 @@ const axios = require('axios');
 module.exports.config = {
   name: "quiz",
   hasPermission: 0,
+  nonPrefix: true,
   version: "4.0.1",
   description: "Play a quiz game and earn balance sir!",
   credits: "Aljur pogoy",

@@ -5,6 +5,7 @@ module.exports = {
   category: "Utility",
   description: "Displays all available commands or detailed info about a specific command",
   author: "Cid Kagenou",
+  nonPrefix: false,
   version: "4.0",
   usage: "help or help <command> or help <page>",
   execute: async (api, event, args, commands, prefix, admins, appState, sendMessage) => {
@@ -102,8 +103,8 @@ module.exports = {
     }
     helpMessage += `\n\n📄 Page ${page}/${totalPages}\n`;
     helpMessage += totalPages > 1 ? `> Type ${prefix}help <page> to see more (e.g., ${prefix}help 2).\n` : "";
-    helpMessage += `> Type ${prefix}help <command> for more details.\n`;
-    helpMessage += `> Enjoy using the bot!`;
+    helpMessage += `\n> Type ${prefix}help <command> for more details.\n`;
+    helpMessage += `\n> Enjoy using the bot!`;
     api.shareContact(helpMessage, api.getCurrentUserID(), threadID);
   },
 };

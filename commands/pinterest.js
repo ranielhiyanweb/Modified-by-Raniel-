@@ -3,7 +3,7 @@ module.exports = {
   name: "pinterest",
   author: "Aljur pogoy | Moderators",
   role: 0,
-  nonPrefix: false,
+  nonPrefix: true,
   version: "4.0.0",
   description: "Search for Pinterest images (max 5 results). Usage: #pinterest <query> <max_results>",
   async run({ api, event }) {

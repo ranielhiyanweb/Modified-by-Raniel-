@@ -5,6 +5,7 @@ const axios = require("axios");
 module.exports = {
 
   name: "uid",
+  nonPrefix:true,
 
   version: "2.2.0",
 

@@ -4,6 +4,7 @@ import AuroraBetaStyler from "../core/plugin/aurora-beta-styler";
 
 module.exports = {
   name: "ss",
+  nonPrefix: true,
   description: "Take a screenshot of a webpage. Usage: #ss <url>",
   author: "Aljur pogoy",
   version: "4.0.0",

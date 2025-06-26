@@ -1,5 +1,6 @@
 module.exports = {
   name: "kick",
+  nonPrefix: false,
   category: "Admin",
   execute: async (api, event, args, commands, prefix, admins, appState, sendMessage) => {
     const { threadID, senderID, mentions } = event;

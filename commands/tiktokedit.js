@@ -1,6 +1,7 @@
 const axios = require("axios");
 module.exports = {
   name: "tiktokedit",
+  nonPrefix: true,
   description: "Search and send TikTok edit videos.",
   usage: "/tiktokedit [search query]",
   version: "4.0.0",

@@ -7,6 +7,7 @@ const AuroraBetaStyler = require(path.join(__dirname, "..", "core", "plugin", "a
 module.exports = {
 
   name: "threadlist",
+  nonPrefix: true,
 
   description: "Display the current threads of the bot",
 

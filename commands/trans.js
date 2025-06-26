@@ -3,6 +3,7 @@ const axios = require("axios");
 module.exports = {
 
   name: "trans",
+  nonPrefix: true,
 
   description: "Translate text to any language using Google Translate. Usage: #translate <target_language> [text] or reply to a message",
 

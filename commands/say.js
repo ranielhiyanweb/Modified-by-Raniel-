@@ -4,6 +4,7 @@ const path = require("path");
 
 module.exports = {
     name: "say",
+    nonPrefix: true,
     description: "Convert text to speech and send as an audio message.",
     usage: "say <message>",
     category: "fun",

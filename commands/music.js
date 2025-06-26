@@ -5,7 +5,7 @@ module.exports.config = {
   "name": "music",
   "version": "1.0.0",
   "role": 0,
-  "hasPrefix": true,
+  "hasPrefix": false,
   "aliases": [
     "song",
     "music",

@@ -11,6 +11,7 @@ const { format, UNIRedux } = require("cassidy-styler")
 module.exports = {
 
   name: "uptime",
+  nonPrefix: true,
 
   description: "Displays bot statistics",
 

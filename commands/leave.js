@@ -1,6 +1,7 @@
 module.exports = {
 
   name: "leave",
+  nonPrefix: false,
 
   handleEvent: true,
 

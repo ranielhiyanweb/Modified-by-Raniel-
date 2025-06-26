@@ -3,6 +3,7 @@ const AuroraBetaStyler = require(path.join(__dirname, "..", "core", "plugin", "a
 module.exports = {
   config: {
     name: "thread",
+    nonPrefix: true,
     description: "Manage threads with ban, approve, pending, list, and unban actions.",
     usage: "thread <ban/approve/pending/list/unban> [threadID]",
     role: 3,

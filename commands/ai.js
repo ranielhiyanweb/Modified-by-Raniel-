@@ -4,10 +4,10 @@ const path = require("path");
 const { get } = require("https");
 module.exports = {
     config: {
-        name: "gpt4o",
+        name: "ai",
         description: "Interact with the GPT-4O API for conversational responses, including attachments.",
         usage: "/gpt4o <query>",
-        nonPrefix: true
+        nonPrefix: false
     },
     run: async ({ api, event, args, admins }) => {
         const { threadID, messageID, senderID, messageReply } = event;
