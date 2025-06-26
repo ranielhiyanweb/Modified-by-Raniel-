@@ -97,7 +97,7 @@ const gagstockCommand: ShadowBot.Command = {
         const offMessage = AuroraBetaStyler.styleOutput({
           headerText: "Gagstock",
           headerSymbol: "🛑",
-          headerStyle: "bold",
+          
           bodyText: "Gagstock tracking stopped.",
           bodyStyle: "bold",
           footerText: "Modified by: Raniela ",
@@ -107,7 +107,7 @@ const gagstockCommand: ShadowBot.Command = {
         const noSessionMessage = AuroraBetaStyler.styleOutput({
           headerText: "Gagstock",
           headerSymbol: "⚠️",
-          headerStyle: "bold",
+          
           bodyText: "You don't have an active gagstock session.",
           bodyStyle: "bold",
           footerText: "Modified by: Raniela",
@@ -120,7 +120,7 @@ const gagstockCommand: ShadowBot.Command = {
       const usageMessage = AuroraBetaStyler.styleOutput({
         headerText: "Gagstock",
         headerSymbol: "📌",
-        headerStyle: "bold",
+        
         bodyText: "Usage:\n• /gagstock on\n• /gagstock on Sunflower | Watering Can\n• /gagstock off",
         bodyStyle: "bold",
         footerText: "Modified by: Raniela",
@@ -132,7 +132,7 @@ const gagstockCommand: ShadowBot.Command = {
       const activeMessage = AuroraBetaStyler.styleOutput({
         headerText: "Gagstock",
         headerSymbol: "📡",
-        headerStyle: "bold",
+        
         bodyText: "You're already tracking Gagstock. Use /gagstock off to stop.",
         bodyStyle: "bold",
         footerText: "Modified by: Raniela",
@@ -143,7 +143,7 @@ const gagstockCommand: ShadowBot.Command = {
     const startMessage = AuroraBetaStyler.styleOutput({
       headerText: "Gagstock",
       headerSymbol: "✅",
-      headerStyle: "bold",
+      
       bodyText: "Gagstock tracking started via WebSocket!",
       bodyStyle: "bold",
       footerText: "Modified by: Raniela",
@@ -211,7 +211,7 @@ const gagstockCommand: ShadowBot.Command = {
           const message = AuroraBetaStyler.styleOutput({
             headerText: "Grow A Garden Tracker",
             headerSymbol: "🌾",
-            headerStyle: "bold",
+            
             bodyText: `${filteredContent}${weatherInfo}📅 Updated at (PH): ${updatedAtPH}`,
             bodyStyle: "bold",
             footerText: "Powered by: **Aljur pogoy**",
