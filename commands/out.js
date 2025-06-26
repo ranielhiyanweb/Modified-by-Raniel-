@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 module.exports = {
   name: "out",
-  nonPrefix: false,
+  nonPrefix: true,
   author: "Aljur Pogoy && Moderators",
   version: "3.0.0",
   description: "Make the bot leave the current thread (Admin only). Usage: #out",
