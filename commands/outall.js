@@ -1,6 +1,7 @@
 const { format, UNIRedux } = require("cassidy-styler");
 module.exports = {
   name: "outall",
+  nonPrefix: true,
   author: "Aljur Pogoy",
   version: "4.0.0",
   description: "Makes the bot leave all threads. Usage: #outall (admin only)",

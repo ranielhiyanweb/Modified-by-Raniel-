@@ -1,6 +1,7 @@
  module.exports = {
   config: {
     name: "ping",
+    nonPrefix: true,
     description: "Responds with Pong!",
     role: 3,
     cooldown: 5,
