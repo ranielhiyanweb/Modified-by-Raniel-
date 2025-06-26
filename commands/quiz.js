@@ -1,116 +1,126 @@
-const axios = require('axios');
-module.exports.config = {
-  name: "quiz",
-  hasPermission: 0,
-  nonPrefix: true,
-  version: "4.0.1",
-  description: "Play a quiz game and earn balance sir!",
-  credits: "Aljur pogoy",
-};
-module.exports.run = async function ({ api, event, args, usersData, db }) {
-  const { threadID, messageID, senderID } = event;
-  try {
-    const quizUrl = `https://kaiz-apis.gleeze.com/api/quiz?limit=3`;
-    const quizResponse = await axios.get(quizUrl);
-    const questions = quizResponse.data.questions;
-    if (!questions || questions.length === 0) {
-      return api.sendMessage(
-        "🎯 『 QUIZ 』 🎯\n\n❌ No questions available. Try again later!",
-        threadID,
-        messageID
-      );
-    }
-    let currentQuestionIndex = 0;
-    let userBalance = usersData.get(senderID)?.balance || (db ? await db.db("users").findOne({ userId: senderID })?.data?.balance || 0 : 0);
-    const askQuestion = (question) => {
-      const { question: q, category, difficulty, choices, correct_answer } = question;
-      let message = ` 『 QUIZ 』 \n\n`;
-      message += ` Category: ${category}\n`;
-      message += ` Difficulty: ${difficulty}\n`;
-      message += `❓ Question: ${q}\n\n`;
-      message += ` Choices:\n\n`;
-      for (const [key, value] of Object.entries(choices)) {
-        message += `${key}: ${value}\n`;
+const axios = require("axios");
+
+const userScores = new Map();
+const scoreTimeouts = new Map();
+
+function resetUserScore(userID) {
+  userScores.delete(userID);
+  scoreTimeouts.delete(userID);
+}
+
+function startScoreTimer(userID) {
+  if (scoreTimeouts.has(userID)) {
+    clearTimeout(scoreTimeouts.get(userID));
+  }
+
+  const timeout = setTimeout(() => {
+    resetUserScore(userID);
+  }, 5 * 60 * 1000); // 5 minutes
+
+  scoreTimeouts.set(userID, timeout);
+}
+
+module.exports = {
+  config: {
+    name: "quiz",
+    author: "Aljur Pogoy",
+    description: "Get a quiz with options, answer checking, and score tracking.",
+    usage: "<prefix>quiz [category] [difficulty]",
+    role: 0,
+    aliases: ["qz"],
+  },
+
+  async run({ api, event, args }) {
+    const { threadID, messageID, senderID } = event;
+
+    const category = args[0]?.toLowerCase();      // e.g. math
+    const difficulty = args[1]?.toLowerCase();    // easy, medium, hard
+
+    let url = `https://kaiz-apis.gleeze.com/api/quiz?limit=1&apikey=72f8161d-50d4-4177-a3b4-bd6891de70ef`;
+    if (category) url += `&category=${encodeURIComponent(category)}`;
+    if (difficulty) url += `&difficulty=${encodeURIComponent(difficulty)}`;
+
+    try {
+      const res = await axios.get(url);
+      const quiz = res.data?.result?.[0];
+      if (!quiz) {
+        return api.sendMessage("❌ No quiz found for that category/difficulty.", threadID, messageID);
       }
-      message += `\nReply with the letter (A, B, C, or D) of your answer!`;
-      api.sendMessage(
-        message,
-        threadID,
-        (err, info) => {
-          if (err) {
-            return api.sendMessage("❌ Error sending question.", threadID, messageID);
+
+      const choices = quiz.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join("\n");
+      const correctAnswerIndex = quiz.options.findIndex(opt => opt === quiz.correct_answer);
+      const correctLetter = String.fromCharCode(65 + correctAnswerIndex); // A/B/C/D
+
+      const quizMsg = `🧠 Quiz Time!
+━━━━━━━━━━━━━━━
+📚 Category: ${quiz.category}
+🎯 Difficulty: ${quiz.difficulty}
+❓ Question: ${quiz.question}
+🔢 Choices:
+${choices}
+━━━━━━━━━━━━━━━
+⌛ You have *10 seconds* to answer by replying with the letter (A, B, C, D).`;
+
+      api.sendMessage(quizMsg, threadID, async (err, info) => {
+        if (err) return console.error(err);
+
+        // Save listener
+        global.quizAnswer = {
+          messageID: info.messageID,
+          correct: correctLetter,
+          correctText: quiz.correct_answer,
+          answered: false,
+          senderID,
+          threadID,
+        };
+
+        // Start/reset user score timer
+        startScoreTimer(senderID);
+
+        // Set timeout to auto-reveal answer
+        setTimeout(() => {
+          if (global.quizAnswer && !global.quizAnswer.answered && global.quizAnswer.senderID === senderID) {
+            api.sendMessage(
+              `⏰ Time's up!\nThe correct answer is: ${correctLetter}. ${quiz.correct_answer}`,
+              threadID
+            );
+            global.quizAnswer = null;
           }
-          global.Kagenou.replies[info.messageID] = {
-            callback: async (replyEvent) => {
-              const body = replyEvent.body || replyEvent.event?.body;
-              const replyThreadID = replyEvent.threadID || replyEvent.event?.threadID;
-              const replyMessageID = replyEvent.messageID || replyEvent.event?.messageID;
-              if (!body || !replyThreadID || !replyMessageID) {
-                return replyEvent.api.sendMessage(
-                  "❌ Error: Invalid reply received.",
-                  replyThreadID || threadID,
-                  replyMessageID || messageID
-                );
-              }
-              const userAnswer = body.trim().toUpperCase();
-              if (!['A', 'B', 'C', 'D'].includes(userAnswer)) {
-                return replyEvent.api.sendMessage(
-                  "『 QUIZ 』\n\n❌ Please reply with a valid letter (A, B, C, or D)!",
-                  replyThreadID,
-                  replyMessageID
-                );
-              }
-              const isCorrect = userAnswer === correct_answer;
-              if (isCorrect) {
-                const reward = 10;
-                userBalance += reward;
-                try {
-                  if (db) {
-                    await db.db("users").updateOne(
-                      { userId: senderID },
-                      { $set: { userId: senderID, data: { balance: userBalance } } },
-                      { upsert: true }
-                    );
-                  } else {
-                    usersData.set(senderID, { ...usersData.get(senderID), balance: userBalance });
-                  }
-                  replyEvent.api.sendMessage(
-                    `『 QUIZ 』\n\n✅ Correct! +${reward} balance. Your new balance: ${userBalance}\nAnswer: ${choices[correct_answer]}`,
-                    replyThreadID,
-                    replyMessageID
-                  );
-                } catch (dbError) {
-                  replyEvent.api.sendMessage("❌ Error updating balance.", replyThreadID, replyMessageID);
-                }
-              } else {
-                replyEvent.api.sendMessage(
-                  `『 QUIZ 』 \n\n❌ Wrong! The correct answer was ${choices[correct_answer]}.`,
-                  replyThreadID,
-                  replyMessageID
-                );
-              }
-              currentQuestionIndex++;
-              if (currentQuestionIndex < questions.length) {
-                askQuestion(questions[currentQuestionIndex]);
-              } else {
-                replyEvent.api.sendMessage(
-                  ` 『 QUIZ 』 \n\n🏁 Quiz completed! Your final balance: ${userBalance}`,
-                  replyThreadID,
-                  replyMessageID
-                );
-                delete global.Kagenou.replies[info.messageID];
-              }
-            },
-            author: senderID
-          };
-        }
-      );
-    };
-    askQuestion(questions[0]);
-  } catch (error) {
-    let errorMessage = " 『 QUIZ 』 \n\n";
-    errorMessage += `❌ An error occurred while starting the quiz.\n`;
-    errorMessage += `Error: ${error.message}`;
-    api.sendMessage(errorMessage, threadID, messageID);
+        }, 10000); // 10 seconds
+      });
+
+    } catch (err) {
+      console.error("❌ Quiz error:", err.message);
+      api.sendMessage("❌ Error fetching quiz. Please try again later.", threadID, messageID);
+    }
+  },
+
+  // Listen for replies
+  handleReply({ api, event }) {
+    const { threadID, messageID, senderID, body } = event;
+    if (!global.quizAnswer || global.quizAnswer.answered || global.quizAnswer.senderID !== senderID) return;
+
+    const userAnswer = body.trim().toUpperCase();
+    if (["A", "B", "C", "D"].includes(userAnswer)) {
+      global.quizAnswer.answered = true;
+
+      const isCorrect = userAnswer === global.quizAnswer.correct;
+
+      // Score tracking
+      if (isCorrect) {
+        const prevScore = userScores.get(senderID) || 0;
+        userScores.set(senderID, prevScore + 1);
+      }
+
+      const currentScore = userScores.get(senderID) || 0;
+      const replyMsg = isCorrect
+        ? `✅ Correct! 🎉 The answer is ${global.quizAnswer.correct}. ${global.quizAnswer.correctText}\n🏆 Your score: ${currentScore}`
+        : `❌ Wrong answer.\nThe correct answer was: ${global.quizAnswer.correct}. ${global.quizAnswer.correctText}\n🏆 Your score: ${currentScore}`;
+
+      api.sendMessage(replyMsg, threadID, messageID);
+      global.quizAnswer = null;
+
+      startScoreTimer(senderID); // reset score timeout
+    }
   }
 };
