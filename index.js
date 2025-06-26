@@ -375,7 +375,7 @@ const startListeningForMessages = (api) => {
             ) {
               global.threadState.pending.set(threadID, { addedAt: new Date() });
               console.log(`Added thread ${threadID} to pending state`);
-              api.sendMessage(`Thank you for inviting me here! ThreadID: ${threadID}`, threadID);
+              api.sendMessage(`Thank you for inviting me here!\nyou can ask me everything by using Ai command\nThreadID: ${threadID}\n\nthis bot powered by: Raniela`, threadID);
               try {
                 await api.changeNickname(config.botName, threadID, api.getCurrentUserID());
                 console.log(`Nickname changed to ${config.botName} in thread ${threadID}`);
