@@ -6,6 +6,7 @@ namespace ShadowBot {
   export interface Command {
     config: {
       name: string;
+      nonPrefix: true;
       description: string;
       usage: string;
       category?: string;
