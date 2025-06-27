@@ -38,7 +38,7 @@ module.exports = {
       fs.unlinkSync(tempImagePath);
     } catch (error) {
       console.error("❌ Error in hololive command:", error.message);
-      const errorMessage = `════『 𝗛𝗢𝗟𝗢𝗟𝗜𝗩𝗘 』════\n\n  ┏━━━━━━━┓\n  ┃ 『 𝗜𝗡𝗙𝗢 』 An error occurred while fetching the Hololive image.\n  ┃ ${error.message}\n  ┗━━━━━━━┛\n\n> Thank you for using our Cid Kagenou bot`;
+      const errorMessage = `════『 𝗛𝗢𝗟𝗢𝗟𝗜𝗩𝗘 』════\n\n  ┏━━━━━━━┓\n  ┃ 『 𝗜𝗡𝗙𝗢 』 An error occurred while fetching the Hololive image.\n  ┃ ${error.message}\n  ┗━━━━━━━┛\n\n> Thank you for Using Raniela's Bot`;
       api.sendMessage(errorMessage, threadID, messageID);
     }
   },

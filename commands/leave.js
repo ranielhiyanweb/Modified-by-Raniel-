@@ -15,7 +15,7 @@ module.exports = {
 
       const name = event.logMessageData.leftParticipantName;
 
-      const farewellMessage = `Adios!, ${name}! Thanks for being part of the group!`;
+      const farewellMessage = `Adios!, ${name}! Thanks for being part of the group!\nBati mog nawong.`;
 
       api.sendMessage(farewellMessage, threadID);
 

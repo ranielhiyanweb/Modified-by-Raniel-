@@ -2,9 +2,10 @@ const path = require("path");
 const moment = require("moment-timezone");
 const AuroraBetaStyler = require(path.join(__dirname, "..", "core", "plugins", "aurora-beta-styler"));
 module.exports = {
-  name: "acp",
+  name: "accept",
   description: "Accepts friend requests from users",
   author: "Aljur Pogoy | Francis Loyd Raval",
+  modefier: "Raniel",
   aliases: ["accept"],
   role: 1,
   async run({ api, event, args }) {

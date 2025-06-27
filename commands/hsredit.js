@@ -6,7 +6,7 @@ module.exports = {
     name: "hsredit",
     description: "Sends hsredits.",
     author: "Aljur Pogoy",
-    usage: "/hsredit",
+    usage: "hsredit",
     version: "3.0.0",
 
     async run({ api, event }) {
