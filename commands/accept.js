@@ -2,8 +2,7 @@ const path = require("path");
 const moment = require("moment-timezone");
 const AuroraBetaStyler = require(path.join(__dirname, "..", "core", "plugins", "aurora-beta-styler"));
 module.exports = {
-  name: "accept",
-  nonPrefix: true,
+  name: "acp",
   description: "Accepts friend requests from users",
   author: "Aljur Pogoy | Francis Loyd Raval",
   aliases: ["accept"],
@@ -13,10 +12,10 @@ module.exports = {
     const styledMessage = (header, body, symbol) => AuroraBetaStyler.styleOutput({
       headerText: header,
       headerSymbol: symbol,
-      headerStyle: "bold",
+      headerStyle: "",
       bodyText: body,
-      bodyStyle: "bold",
-      footerText: "Developed by: Aljur Pogoy | Francis loyd raval\n\n Modifier: Raniel"
+      bodyStyle: "",
+      footerText: "Developed by: Aljur Pogoy | Francis loyd raval\n\nModefier: Raniel"
     });
     const handleApprove = async (targetUID) => {
       const form = {
