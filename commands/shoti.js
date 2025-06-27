@@ -2,7 +2,7 @@ const axios = require("axios");
 module.exports = {
     name: "shoti",
     description: "Sends a Cid Kagenou TikTok edit video.",
-    usage: "/shoti",
+    usage: "shoti",
     nonPrefix: true,
     async run({ api, event }) {
         try {
@@ -12,12 +12,12 @@ module.exports = {
                 responseType: "stream"
             });
             api.sendMessage({
-                body: "Here's your Shoti, No Jkol challenge ah",
+                body: "Here's your Shoti, No Jkol challenge ha.",
                 attachment: response.data
             }, event.threadID, event.messageID);
         } catch (error) {
             console.error(error);
-            api.sendMessage("❌", event.threadID, event.messageID);
+            api.sendMessage("❌ utot sa iro", event.threadID, event.messageID);
         }
     }
 };
