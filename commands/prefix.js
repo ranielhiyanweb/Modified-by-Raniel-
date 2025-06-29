@@ -5,6 +5,7 @@ const { format, UNIRedux } = require("cassidy-styler");
 module.exports = {
   name: "prefix",
   author: "Aljur Pogoy",
+  modefier: "Raniel",
   nonPrefix: true,
   description: "Shows the bot's current prefix with a Shadow Garden flair.",
   cooldown: 5,
