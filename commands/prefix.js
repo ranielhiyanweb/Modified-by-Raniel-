@@ -1,49 +1,62 @@
 const fs = require("fs");
 const path = require("path");
 const { format, UNIRedux } = require("cassidy-styler");
+
 module.exports = {
   name: "prefix",
-  author: "Aljur Pogoy.",
+  author: "Aljur Pogoy",
   nonPrefix: true,
   description: "Shows the bot's current prefix with a Shadow Garden flair.",
   cooldown: 5,
   version: "4.0.0",
+
   async run({ api, event, prefix }) {
     const { threadID, messageID } = event;
-    const mp4Path = path.join(__dirname, "cache", "tikmate-io_7291018407313493253 (online-video-cutter.com).mp4");
+    const cacheDir = path.join(__dirname, "cache");
+
     try {
-      if (!fs.existsSync(mp4Path)) {
+      // Get all mp4 files in cache
+      const videoFiles = fs.readdirSync(cacheDir).filter(file => file.endsWith(".mp4"));
+
+      if (videoFiles.length === 0) {
         return api.sendMessage(
           format({
             title: "Prefix",
             titlePattern: `{emojis} ${UNIRedux.arrow} {word}`,
             titleFont: "double_struck",
             emojis: "⚠️",
-            content: "MP4 not found in cache! Mission compromised."
+            content: "No videos found in cache folder!"
           }),
           threadID,
           messageID
         );
       }
+
+      // Select a random video
+      const randomVideo = videoFiles[Math.floor(Math.random() * videoFiles.length)];
+      const videoPath = path.join(cacheDir, randomVideo);
+
+      // Send response
       await api.sendMessage({
         body: format({
           title: "Prefix",
           titlePattern: `{emojis} ${UNIRedux.arrow} {word}`,
           titleFont: "double_struck",
           emojis: "🌐",
-          content: `System Prefix: ${prefix}`
+          content: `𝖲𝗒𝗌𝗍𝖾𝗆 𝖯𝗋𝖾𝖿𝗂𝗑: ${prefix}\n\nVideo:`
         }),
-        attachment: fs.createReadStream(mp4Path)
+        attachment: fs.createReadStream(videoPath)
       }, threadID, messageID);
+
     } catch (error) {
-      console.error("Error sending prefix with MP4:", error);
+      console.error("Error sending prefix with random video:", error);
       api.sendMessage(
         format({
           title: "Prefix",
           titlePattern: `{emojis} ${UNIRedux.arrow} {word}`,
           titleFont: "double_struck",
           emojis: "❌",
-          content: "Failed to display the prefix. Mission failed."
+          content: "❌ Failed to load random video with prefix."
         }),
         threadID,
         messageID
