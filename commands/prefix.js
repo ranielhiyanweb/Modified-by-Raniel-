@@ -12,11 +12,11 @@ module.exports = {
 
   async run({ api, event, prefix }) {
     const { threadID, messageID } = event;
-    const cacheDir = path.join(__dirname, "cache");
+    const cache2Dir = path.join(__dirname, "cache2");
 
     try {
-      // Get all mp4 files in cache
-      const videoFiles = fs.readdirSync(cacheDir).filter(file => file.endsWith(".mp4"));
+      // Get all mp4 files in cache2
+      const videoFiles = fs.readdirSync(cache2Dir).filter(file => file.endsWith(".mp4"));
 
       if (videoFiles.length === 0) {
         return api.sendMessage(
@@ -25,7 +25,7 @@ module.exports = {
             titlePattern: `{emojis} ${UNIRedux.arrow} {word}`,
             titleFont: "double_struck",
             emojis: "⚠️",
-            content: "No videos found in cache folder!"
+            content: "No videos found in cache2 folder!"
           }),
           threadID,
           messageID
@@ -34,7 +34,7 @@ module.exports = {
 
       // Select a random video
       const randomVideo = videoFiles[Math.floor(Math.random() * videoFiles.length)];
-      const videoPath = path.join(cacheDir, randomVideo);
+      const videoPath = path.join(cache2Dir, randomVideo);
 
       // Send response
       await api.sendMessage({
