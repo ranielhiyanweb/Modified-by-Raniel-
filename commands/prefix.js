@@ -44,7 +44,7 @@ module.exports = {
           titlePattern: `{emojis} ${UNIRedux.arrow} {word}`,
           titleFont: "double_struck",
           emojis: "🌐",
-          content: `𝖲𝗒𝗌𝗍𝖾𝗆 𝖯𝗋𝖾𝖿𝗂𝗑: ${prefix}\n\nVideo:`
+          content: `𝖲𝗒𝗌𝗍𝖾𝗆 𝖯𝗋𝖾𝖿𝗂𝗑: ${prefix}\n`
         }),
         attachment: fs.createReadStream(videoPath)
       }, threadID, messageID);
